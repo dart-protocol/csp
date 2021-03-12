@@ -26,7 +26,12 @@ class Csp {
   static const String typeForScriptSrc = 'script-src';
 
   /// Kind for serialization ([package:kind](https://pub.dev/packages/kind)).
-  static final Kind<Csp> kind = _CspKind();
+  static final Kind<Csp> kind = CompositePrimitiveKind<Csp, String>.simple(
+    name: 'Csp',
+    primitiveKind: const StringKind(),
+    fromPrimitive: (s) => Csp.parse(s),
+    toPrimitive: (t) => t.toSourceString(),
+  );
 
   /// Keyword "'none'".
   static const String none = "'none'";
@@ -345,51 +350,6 @@ class Csp {
   }
 }
 
-/// Error thrown when [Csp] is violated.
-class CspViolationError extends Error {
-  final String action;
-  final Uri uri;
-  final Csp csp;
-
-  CspViolationError({
-    required this.action,
-    required this.uri,
-    required this.csp,
-  });
-
-  @override
-  String toString() {
-    return 'CspViolationError(action: "$action", uri: "$uri", csp: $csp)';
-  }
-}
-
-/// Kind (for 'package:kind').
-class _CspKind extends CompositePrimitiveKind<Csp, String> {
-  static final EntityKind<_CspKind> kind = EntityKind<_CspKind>(
-    name: 'CspKind',
-    build: (c) {
-      c.constructor = () => _CspKind();
-    },
-  );
-
-  _CspKind();
-
-  @override
-  String get name => 'Csp';
-
-  @override
-  StringKind compose() => const StringKind();
-
-  @override
-  EntityKind<Object> getKind() => kind;
-
-  @override
-  Csp instanceFromComposed(String value) => Csp.parse(value);
-
-  @override
-  String instanceToComposed(Csp value) => value.toSourceString();
-}
-
 /// [Csp] directive.
 class CspDirective {
   final String directiveName;
@@ -413,5 +373,23 @@ class CspDirective {
       return 'CspDirective("$directiveName")';
     }
     return 'CspDirective("$directiveName", ["${arguments.join('", "')}"])';
+  }
+}
+
+/// Error thrown when [Csp] is violated.
+class CspViolationError extends Error {
+  final String action;
+  final Uri uri;
+  final Csp csp;
+
+  CspViolationError({
+    required this.action,
+    required this.uri,
+    required this.csp,
+  });
+
+  @override
+  String toString() {
+    return 'CspViolationError(action: "$action", uri: "$uri", csp: $csp)';
   }
 }

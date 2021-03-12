@@ -3,8 +3,8 @@
 
 # Overview
 
-A package for processing [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy)
-declarations.
+A package for reading and writing [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy)
+strings.
 
 Licensed under the [Apache License 2.0](LICENSE).
 
@@ -18,7 +18,7 @@ Licensed under the [Apache License 2.0](LICENSE).
 In _pubspec.yaml_:
 ```yaml
 dependencies:
-  csp: ^0.1.0
+  csp: ^0.1.1
 ```
 
 ## 2.Use
